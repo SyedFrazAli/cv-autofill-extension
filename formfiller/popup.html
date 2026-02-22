@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV AutoFill</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <img src="icons/logo.png" alt="CV AutoFill Logo" class="logo-image" width="28" height="28">
+        <span>CV AutoFill</span>
+      </div>
+      <div class="profile-container hidden" id="profileContainer">
+        <select id="profileSelect" class="profile-select"></select>
+        <button id="deleteProfileBtn" class="btn-icon delete-btn" title="Delete Form">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 6h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Upload Section -->
+    <div class="upload-section" id="uploadSection">
+      <button id="backBtn" class="btn-text hidden" style="margin-bottom: 15px; font-weight: 600;">← Back to Active
+        Form</button>
+      <div class="upload-area" id="uploadArea">
+        <svg class="upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M17 8L12 3L7 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <path d="M12 3V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <h3>Upload Your CV</h3>
+        <p>Drag & drop your PDF or click to browse</p>
+        <input type="file" id="fileInput" accept=".pdf" hidden>
+        <button class="btn-upload" id="browseBtn">Browse Files</button>
+        <div style="margin-top: 20px;">
+          <button class="btn-text" id="manualCreateBtn">Or Create Form Manually</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Preview Section -->
+    <div class="data-section hidden" id="dataSection">
+      <button id="dataBackBtn" class="btn-text" style="margin-bottom: 15px; font-weight: 600;">← Back to
+        Uploads</button>
+      <div class="section-header">
+        <h3>Parsed CV Data</h3>
+        <button class="btn-icon" id="editBtn" title="Edit data">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path
+              d="M18.5 2.50001C18.8978 2.10219 19.4374 1.87869 20 1.87869C20.5626 1.87869 21.1022 2.10219 21.5 2.50001C21.8978 2.89784 22.1213 3.43741 22.1213 4.00001C22.1213 4.56262 21.8978 5.10219 21.5 5.50001L12 15L8 16L9 12L18.5 2.50001Z"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="data-preview" id="dataPreview">
+        <!-- Data will be populated here -->
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="actions">
+        <button class="btn-secondary" id="addNewFormBtn">Add New Form</button>
+        <button class="btn-primary" id="autofillBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 11L12 14L22 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path
+              d="M21 12V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 2.58579C3.96086 2.21071 4.46957 2 5 2H16"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          AutoFill Form
+        </button>
+      </div>
+    </div>
+
+    <!-- Status Messages -->
+    <div class="status-message hidden" id="statusMessage"></div>
+  </div>
+
+  <script src="lib/pdf.min.js"></script>
+  <script src="cv-parser.js"></script>
+  <script src="storage.js"></script>
+  <script src="popup.js"></script>
+</body>
+
+</html>
