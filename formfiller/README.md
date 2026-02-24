@@ -88,8 +88,6 @@ The extension can automatically fill the following types of fields:
 - **Storage**: Chrome Storage API
 - **Permissions**: 
   - `storage` - To save your CV data locally
-  - `activeTab` - To fill forms on the current page
-  - `scripting` - To inject autofill functionality
 
 ## Troubleshooting
 
